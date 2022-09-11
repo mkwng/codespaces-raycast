@@ -1,5 +1,5 @@
 import { Action, ActionPanel, Icon, List } from "@raycast/api";
-import { useFetch } from "@raycast/utils";
+import { getAvatarIcon, useFetch } from "@raycast/utils";
 import { personalAccessToken } from "./preferences";
 import { Response } from "./types";
 import { match, P } from "ts-pattern";
@@ -31,10 +31,17 @@ export default function Command() {
                 ),
                 () => Icon.Clock
               )
-              .with(P.union("Available", "Created", "Starting", "Shutdown"), () => Icon.ComputerChip)
+              .with(P.union("Available", "Created", "Starting", "Shutdown"), () =>
+                getAvatarIcon(`${codespace.repository.name.toUpperCase()}`)
+              )
               .with(P.union("Unavailable", "Deleted", "Archived", "Failed"), () => Icon.XMarkCircle)
               .exhaustive()}
             title={codespace.display_name || codespace.name}
+            keywords={[
+              `${codespace.repository.owner.login}/${codespace.repository.name}`,
+              codespace.name,
+              codespace.repository.name,
+            ]}
             subtitle={`${codespace.repository.owner.login}/${codespace.repository.name}`}
             accessories={[
               {
