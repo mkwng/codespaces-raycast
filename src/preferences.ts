@@ -1,3 +1,3 @@
 import { getPreferenceValues } from "@raycast/api";
 
-export const { personalAccessToken } = getPreferenceValues();
+export const { personalAccessToken, preferredEditor } = getPreferenceValues();
