@@ -4,7 +4,7 @@
   "title": "GitHub Codespaces",
   "description": "Manage and launch codespaces",
   "icon": "github.png",
-  "author": "michael.wang",
+  "author": "Raycast",
   "categories": [
     "Developer Tools",
     "Productivity"
