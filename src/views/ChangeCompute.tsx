@@ -1,18 +1,14 @@
 import { Action, ActionPanel, Clipboard, Icon, List, showHUD, showToast, Toast, useNavigation } from "@raycast/api";
 import { useFetch } from "@raycast/utils";
 import { personalAccessToken } from "../preferences";
-import { Codespace } from "../types";
-import { Endpoints } from "@octokit/types";
+import { Codespace, Machines } from "../types";
 import fetch from "node-fetch";
 
 const ChangeCompute = ({ codespace, onRevalidate }: { codespace: Codespace; onRevalidate: () => void }) => {
   const { pop } = useNavigation();
-  const { data, isLoading } = useFetch<Endpoints["GET /repos/{owner}/{repo}/codespaces/machines"]["response"]["data"]>(
-    `${codespace.repository.url}/codespaces/machines`,
-    {
-      headers: { Accept: "application/vnd.github+json", Authorization: `Bearer ${personalAccessToken}` },
-    }
-  );
+  const { data, isLoading } = useFetch<Machines>(`${codespace.repository.url}/codespaces/machines`, {
+    headers: { Accept: "application/vnd.github+json", Authorization: `Bearer ${personalAccessToken}` },
+  });
   return (
     <List isLoading={isLoading}>
       <List.Section title="Select compute">

@@ -1,12 +1,12 @@
 import { Icon, List } from "@raycast/api";
 import { getAvatarIcon, useFetch } from "@raycast/utils";
 import { personalAccessToken } from "./preferences";
-import { Response } from "./types";
 import { match, P } from "ts-pattern";
 import CodespaceActions from "./actions/CodespaceActions";
+import { Codespaces } from "./types";
 
 export default function Command() {
-  const { data, isLoading, revalidate } = useFetch<Response>("https://api.github.com/user/codespaces", {
+  const { data, isLoading, revalidate } = useFetch<Codespaces>("https://api.github.com/user/codespaces", {
     headers: { Accept: "application/vnd.github+json", Authorization: `Bearer ${personalAccessToken}` },
   });
 
