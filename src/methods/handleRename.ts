@@ -1,13 +1,13 @@
 import { personalAccessToken } from "../preferences";
-import { Codespace, Machine } from "../types";
+import { Codespace } from "../types";
 import { default as nodeFetch } from "node-fetch";
 
-const handleChangeCompute = async ({
+const handleRename = async ({
   codespace,
-  machine,
+  name,
 }: {
   codespace: Codespace;
-  machine: Machine;
+  name: string;
 }) => {
   return await nodeFetch(`${codespace.url}`, {
     method: "PATCH",
@@ -16,9 +16,8 @@ const handleChangeCompute = async ({
       Authorization: `Bearer ${personalAccessToken}`,
     },
     body: JSON.stringify({
-      machine: machine.name,
+      display_name: name,
     }),
   });
 };
-
-export default handleChangeCompute;
+export default handleRename;
