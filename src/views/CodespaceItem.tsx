@@ -11,9 +11,7 @@ interface CodespaceItemProps {
 const CodespaceItem = ({ codespace, onRevalidate }: CodespaceItemProps) => {
   const gitStatus = {
     icon: Icon.ArrowUp,
-    text: `${codespace.git_status.ahead}${
-      codespace.git_status.has_uncommitted_changes ? "+" : ""
-    }`,
+    text: `${codespace.git_status.ahead}${codespace.git_status.has_uncommitted_changes ? "+" : ""}`,
     tooltip: codespace.git_status.has_uncommitted_changes
       ? codespace.git_status.ahead
         ? `You have ${codespace.git_status.ahead} unpushed commits as well as other uncommitted changes`
@@ -27,25 +25,13 @@ const CodespaceItem = ({ codespace, onRevalidate }: CodespaceItemProps) => {
       icon={match(codespace.state)
         .with(P.union("Unknown"), () => Icon.QuestionMarkCircle)
         .with(
-          P.union(
-            "Queued",
-            "Provisioning",
-            "Awaiting",
-            "Moved",
-            "ShuttingDown",
-            "Exporting",
-            "Updating",
-            "Rebuilding"
-          ),
+          P.union("Queued", "Provisioning", "Awaiting", "Moved", "ShuttingDown", "Exporting", "Updating", "Rebuilding"),
           () => Icon.Clock
         )
         .with(P.union("Available", "Created", "Starting", "Shutdown"), () =>
           getAvatarIcon(`${codespace.repository.name.toUpperCase()}`)
         )
-        .with(
-          P.union("Unavailable", "Deleted", "Archived", "Failed"),
-          () => Icon.XMarkCircle
-        )
+        .with(P.union("Unavailable", "Deleted", "Archived", "Failed"), () => Icon.XMarkCircle)
         .exhaustive()}
       title={codespace.display_name || codespace.name}
       keywords={[
@@ -72,14 +58,10 @@ const CodespaceItem = ({ codespace, onRevalidate }: CodespaceItemProps) => {
             }
           : {
               date: new Date(codespace.last_used_at),
-              tooltip: `Last used at: ${new Date(
-                codespace.last_used_at
-              ).toLocaleString()}`,
+              tooltip: `Last used at: ${new Date(codespace.last_used_at).toLocaleString()}`,
             },
       ]}
-      actions={
-        <CodespaceActions codespace={codespace} onRevalidate={onRevalidate} />
-      }
+      actions={<CodespaceActions codespace={codespace} onRevalidate={onRevalidate} />}
     />
   );
 };

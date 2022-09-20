@@ -1,36 +1,17 @@
-import {
-  Action,
-  ActionPanel,
-  Clipboard,
-  Icon,
-  List,
-  showHUD,
-  showToast,
-  Toast,
-  useNavigation,
-} from "@raycast/api";
+import { Action, ActionPanel, Clipboard, Icon, List, showHUD, showToast, Toast, useNavigation } from "@raycast/api";
 import { useFetch } from "@raycast/utils";
 import { personalAccessToken } from "../preferences";
 import { Codespace, Machine, Machines } from "../types";
 import handleChangeCompute from "../methods/handleChangeCompute";
 
-const ChangeCompute = ({
-  codespace,
-  onRevalidate,
-}: {
-  codespace: Codespace;
-  onRevalidate: () => void;
-}) => {
+const ChangeCompute = ({ codespace, onRevalidate }: { codespace: Codespace; onRevalidate: () => void }) => {
   const { pop } = useNavigation();
-  const { data, isLoading } = useFetch<Machines>(
-    `${codespace.repository.url}/codespaces/machines`,
-    {
-      headers: {
-        Accept: "application/vnd.github+json",
-        Authorization: `Bearer ${personalAccessToken}`,
-      },
-    }
-  );
+  const { data, isLoading } = useFetch<Machines>(`${codespace.repository.url}/codespaces/machines`, {
+    headers: {
+      Accept: "application/vnd.github+json",
+      Authorization: `Bearer ${personalAccessToken}`,
+    },
+  });
 
   const onAction = async (machine: Machine) => {
     const toast = await showToast({
@@ -61,8 +42,7 @@ const ChangeCompute = ({
     } catch (error) {
       console.log(error);
       toast.style = Toast.Style.Failure;
-      toast.title =
-        typeof error === "string" ? error : "Failed to change compute";
+      toast.title = typeof error === "string" ? error : "Failed to change compute";
     }
   };
 

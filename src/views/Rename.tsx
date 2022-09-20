@@ -1,23 +1,8 @@
-import {
-  Action,
-  ActionPanel,
-  Clipboard,
-  Form,
-  showHUD,
-  showToast,
-  Toast,
-  useNavigation,
-} from "@raycast/api";
+import { Action, ActionPanel, Clipboard, Form, showHUD, showToast, Toast, useNavigation } from "@raycast/api";
 import { Codespace } from "../types";
 import handleRename from "../methods/handleRename";
 
-const Rename = ({
-  codespace,
-  onRevalidate,
-}: {
-  codespace: Codespace;
-  onRevalidate: () => void;
-}) => {
+const Rename = ({ codespace, onRevalidate }: { codespace: Codespace; onRevalidate: () => void }) => {
   const { pop } = useNavigation();
   return (
     <Form

@@ -2,13 +2,7 @@ import { personalAccessToken } from "../preferences";
 import { Codespace, Machine } from "../types";
 import { default as nodeFetch } from "node-fetch";
 
-const handleChangeCompute = async ({
-  codespace,
-  machine,
-}: {
-  codespace: Codespace;
-  machine: Machine;
-}) => {
+const handleChangeCompute = async ({ codespace, machine }: { codespace: Codespace; machine: Machine }) => {
   return await nodeFetch(`${codespace.url}`, {
     method: "PATCH",
     headers: {
