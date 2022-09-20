@@ -1,23 +1,20 @@
 import { personalAccessToken } from "../preferences";
-import { Codespace, Machine } from "../types";
+import { Codespace } from "../types";
 import { default as nodeFetch } from "node-fetch";
 import { Clipboard, showHUD, showToast, Toast } from "@raycast/api";
 
-const handleChangeCompute = async ({ codespace, machine }: { codespace: Codespace; machine: Machine }) => {
+export const handleStop = async ({ codespace }: { codespace: Codespace }) => {
   const toast = await showToast({
-    title: `Changing compute to ${machine.display_name}...`,
+    title: `Stopping ${codespace.display_name || "codespace"}...`,
     style: Toast.Style.Animated,
   });
   try {
-    const response = await nodeFetch(`${codespace.url}`, {
-      method: "PATCH",
+    const response = await nodeFetch(`${codespace.stop_url}`, {
+      method: "POST",
       headers: {
         Accept: "application/vnd.github+json",
         Authorization: `Bearer ${personalAccessToken}`,
       },
-      body: JSON.stringify({
-        machine: machine.name,
-      }),
     });
     if (response.status !== 200) {
       const data = (await response.json()) as {
@@ -34,13 +31,11 @@ const handleChangeCompute = async ({ codespace, machine }: { codespace: Codespac
       };
     } else {
       await toast.hide();
-      await showHUD("Request sent. Compute change may take a few minutes.");
+      await showHUD("Codespace stopped");
     }
   } catch (error) {
     console.log(error);
     toast.style = Toast.Style.Failure;
-    toast.title = typeof error === "string" ? error : "Failed to change compute";
+    toast.title = "Failed to change name";
   }
 };
-
-export default handleChangeCompute;
