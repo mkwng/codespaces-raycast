@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { List } from "@raycast/api";
+import { Detail, List } from "@raycast/api";
 import { useFetch } from "@raycast/utils";
 import { personalAccessToken } from "./preferences";
 import { Codespaces } from "./types";
@@ -20,7 +20,7 @@ export default function Command() {
   const handleSortByChange = setCriteria;
 
   if (!data?.codespaces) {
-    return <List searchBarAccessory={<SortBy onSortByChange={handleSortByChange} />} isLoading={true}></List>;
+    return <Detail markdown="Could not fetch codespaces" />;
   }
 
   const ListByCriteria = {
